@@ -34,7 +34,7 @@ public class Main {
 						.translate(0.5 - time / 2, 0.5 - time / 2)));
 
 		final AnimationComponent view = new AnimationComponent(animation);
-		view.setPreferredSize(new Dimension(600, 600));
+		view.setPreferredSize(new Dimension(300, 300));
 
 		// Build a simple user interface around the AnimationComponent
 		frame.setLayout(new BorderLayout());
