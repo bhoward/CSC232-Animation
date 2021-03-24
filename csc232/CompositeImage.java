@@ -34,8 +34,7 @@ public class CompositeImage implements Image
    @Override
    public void render(Graphics2D g2)
    {
-      for (Image image : images)
-      {
+      for (Image image : images) {
          image.render(g2);
       }
    }

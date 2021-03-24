@@ -64,12 +64,10 @@ public class AnimationComponent extends JComponent
     */
    public void setDuration(int duration)
    {
-      if (duration >= DELAY)
-      {
+      if (duration >= DELAY) {
          this.duration = duration;
       }
-      else
-      {
+      else {
          this.duration = DELAY;
       }
    }
@@ -146,8 +144,7 @@ public class AnimationComponent extends JComponent
 
    private void notifyListeners()
    {
-      for (ActionListener listener : listeners)
-      {
+      for (ActionListener listener : listeners) {
          listener.actionPerformed(
                   new ActionEvent(this, ActionEvent.ACTION_PERFORMED, ""));
       }
@@ -159,14 +156,11 @@ public class AnimationComponent extends JComponent
       long elapsed = now - lastEvent;
       lastEvent = now;
       progress += (double) elapsed / duration;
-      if (progress > 1.0)
-      {
-         if (loop)
-         {
+      if (progress > 1.0) {
+         if (loop) {
             progress %= 1.0;
          }
-         else
-         {
+         else {
             progress = 1.0;
             timer.stop();
             notifyListeners();

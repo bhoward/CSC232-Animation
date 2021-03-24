@@ -66,8 +66,7 @@ public class Animation
     */
    public void setWeight(double weight)
    {
-      if (weight > 0)
-      {
+      if (weight > 0) {
          this.weight = weight;
       }
    }
@@ -97,12 +96,10 @@ public class Animation
    {
       final double changeover = weight / (weight + that.weight);
       return new Animation(weight + that.weight, time -> {
-         if (time < changeover)
-         {
+         if (time < changeover) {
             return timeline.apply(time / changeover);
          }
-         else
-         {
+         else {
             return that.getFrame((time - changeover) / (1 - changeover));
          }
       });
