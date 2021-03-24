@@ -27,14 +27,15 @@ public class Main {
 
 		// Construct a simple animation: a large circle, followed by a
 		// rectangle that grows from the left to fill the window, followed
-		// by a circle that grows from the center
+		// by a circle that grows from the center.
+		// WARNING: there are magic numbers here, and I don't care.
 		Animation animation = Animation.fixed(Image.circle())
 				.before(new Animation(time -> Image.square().scale(time, 1)))
 				.before(new Animation(time -> Image.circle().scale(time, time)
 						.translate(0.5 - time / 2, 0.5 - time / 2)));
 
 		final AnimationComponent view = new AnimationComponent(animation);
-		view.setPreferredSize(new Dimension(300, 300));
+		view.setPreferredSize(new Dimension(350, 350));
 
 		// Build a simple user interface around the AnimationComponent
 		frame.setLayout(new BorderLayout());
