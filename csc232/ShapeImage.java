@@ -18,7 +18,7 @@ import java.awt.Shape;
  * <code>Shape</code>.
  * 
  * @author bhoward
- * @see java.awt.geom.Shape
+ * @see java.awt.Shape
  */
 public class ShapeImage implements Image
 {
