@@ -30,11 +30,17 @@ public class Main
       // rectangle that grows from the left to fill the window, followed
       // by a circle that grows from the center.
       // WARNING: there are magic numbers here, and I don't care.
-      Animation animation = Animation
-               .fixed(Image.circle().over(Image.square().scale(0.5, 0.5)))
-               .before(new Animation(time -> Image.square().scale(time, 1)))
-               .before(new Animation(time -> Image.circle().scale(time, time)
-                        .translate(0.5 - time / 2, 0.5 - time / 2)));
+      Animation part1 = Animation.fixed(Image.circle()
+                                             .over(Image.square()
+                                                        .scale(0.5, 0.5)));
+      Animation part2 = new Animation(time -> Image.square()
+                                                   .scale(time, 1));
+      Animation part3 = new Animation(time -> Image.circle()
+                                                   .scale(time, time)
+                                                   .translate(0.5 - time / 2,
+                                                            0.5 - time / 2));
+      Animation animation = part1.before(part2)
+                                 .before(part3);
 
       final AnimationComponent view = new AnimationComponent(animation);
       view.setPreferredSize(new Dimension(350, 350));
