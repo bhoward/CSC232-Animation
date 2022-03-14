@@ -41,7 +41,7 @@ public class AnimationComponent extends JComponent
       this.loop = false;
       this.progress = 0.0;
       this.lastEvent = 0;
-      this.timer = new Timer(DELAY, event -> handleTimer(event));
+      this.timer = new Timer(DELAY, this::handleTimer);
       this.listeners = new ArrayList<>();
    }
 
@@ -144,9 +144,9 @@ public class AnimationComponent extends JComponent
 
    private void notifyListeners()
    {
+      ActionEvent e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "");
       for (ActionListener listener : listeners) {
-         listener.actionPerformed(
-                  new ActionEvent(this, ActionEvent.ACTION_PERFORMED, ""));
+         listener.actionPerformed(e);
       }
    }
 
