@@ -36,6 +36,7 @@ public class ShapeImage implements Image
    public void render(Graphics2D g2)
    {
       g2.fill(shape);
+      g2.draw(shape);
    }
 
    private Shape shape;
