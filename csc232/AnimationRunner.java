@@ -17,6 +17,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JSlider;
 
 /**
  * A simple user interface to go around an <code>AnimationComponent</code>.
@@ -75,6 +76,22 @@ public class AnimationRunner
       buttons.add(loopButton);
 
       frame.add(buttons, BorderLayout.SOUTH);
+
+      JSlider slider = new JSlider();
+      slider.setMinimum(0);
+      slider.setMaximum(100);
+      slider.setValue(0);
+      slider.setMajorTickSpacing(10);
+      slider.setMinorTickSpacing(5);
+      slider.setPaintTicks(true);
+      slider.addChangeListener(event -> {
+         view.setProgress(slider.getValue() * 1.0 / slider.getMaximum());
+         stopResumeButton.setEnabled(view.getProgress() < 1.0 || view.isLoop());
+      });
+      view.addProgressListener(event -> slider.setValue(
+               (int) (slider.getMaximum() * view.getProgress())));
+      
+      frame.add(slider, BorderLayout.NORTH);
 
       view.addRunStateListener(event -> {
          if (view.isRunning()) {

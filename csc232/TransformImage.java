@@ -43,6 +43,14 @@ public class TransformImage implements Image
       image.render(g2);
       g2.setTransform(save);
    }
+   
+   @Override
+   public Image transform(AffineTransform transform)
+   {
+      AffineTransform tx = new AffineTransform(this.transform);
+      tx.preConcatenate(transform);
+      return new TransformImage(image, tx);
+   }
 
    private Image image;
    private AffineTransform transform;

@@ -43,7 +43,8 @@ public class AnimationComponent extends JComponent
       this.progress = 0.0;
       this.lastEvent = 0;
       this.timer = new Timer(DELAY, this::handleTimer);
-      this.listeners = new ArrayList<>();
+      this.runStateListeners = new ArrayList<>();
+      this.progressListeners = new ArrayList<>();
    }
 
    /**
@@ -74,6 +75,14 @@ public class AnimationComponent extends JComponent
    }
 
    /**
+    * @return true if the animation will loop back to the beginning
+    */
+   public boolean isLoop()
+   {
+      return loop;
+   }
+
+   /**
     * Sets whether the animation should cycle back to the beginning after
     * reaching the end.
     * 
@@ -86,6 +95,27 @@ public class AnimationComponent extends JComponent
    }
 
    /**
+    * @return the progress through the animation cycle as a number from 0.0 to
+    *         1.0
+    */
+   public double getProgress()
+   {
+      return progress;
+   }
+
+   /**
+    * Set the fractional progress through the animation cycle.
+    * 
+    * @param progress
+    *           a number between 0.0 (beginning) and 1.0 (end)
+    */
+   public void setProgress(double progress)
+   {
+      this.progress = progress;
+      repaint();
+   }
+
+   /**
     * Start the animation at the beginning (time 0.0 on the timeline).
     */
    public void start()
@@ -93,7 +123,7 @@ public class AnimationComponent extends JComponent
       progress = 0.0;
       lastEvent = System.currentTimeMillis();
       timer.start();
-      notifyListeners();
+      notifyRunStateListeners();
    }
 
    /**
@@ -103,7 +133,7 @@ public class AnimationComponent extends JComponent
    {
       lastEvent = System.currentTimeMillis();
       timer.start();
-      notifyListeners();
+      notifyRunStateListeners();
    }
 
    /**
@@ -112,7 +142,7 @@ public class AnimationComponent extends JComponent
    public void stop()
    {
       timer.stop();
-      notifyListeners();
+      notifyRunStateListeners();
    }
 
    /**
@@ -140,13 +170,32 @@ public class AnimationComponent extends JComponent
     */
    public void addRunStateListener(ActionListener listener)
    {
-      listeners.add(listener);
+      runStateListeners.add(listener);
    }
 
-   private void notifyListeners()
+   private void notifyRunStateListeners()
    {
       ActionEvent e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "");
-      for (ActionListener listener : listeners) {
+      for (ActionListener listener : runStateListeners) {
+         listener.actionPerformed(e);
+      }
+   }
+
+   /**
+    * Adds an <code>ActionListener</code> that will be notified of the progress
+    * of the animation.
+    * 
+    * @param listener
+    */
+   public void addProgressListener(ActionListener listener)
+   {
+      progressListeners.add(listener);
+   }
+
+   private void notifyProgressListeners()
+   {
+      ActionEvent e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "");
+      for (ActionListener listener : progressListeners) {
          listener.actionPerformed(e);
       }
    }
@@ -155,6 +204,7 @@ public class AnimationComponent extends JComponent
    {
       long now = System.currentTimeMillis();
       long elapsed = now - lastEvent;
+
       lastEvent = now;
       progress += (double) elapsed / duration;
       if (progress > 1.0) {
@@ -164,9 +214,10 @@ public class AnimationComponent extends JComponent
          else {
             progress = 1.0;
             timer.stop();
-            notifyListeners();
+            notifyRunStateListeners();
          }
       }
+      notifyProgressListeners();
       repaint();
    }
 
@@ -189,7 +240,8 @@ public class AnimationComponent extends JComponent
    private double progress;
    private long lastEvent;
    private Timer timer;
-   private List<ActionListener> listeners;
+   private List<ActionListener> runStateListeners;
+   private List<ActionListener> progressListeners;
 
    private static final int DELAY = 20; // 50 frames per second goal
    private static final int DEFAULT_DURATION = 10000; // 10 seconds

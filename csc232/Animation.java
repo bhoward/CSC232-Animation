@@ -106,6 +106,44 @@ public class Animation
    }
 
    /**
+    * Creates a new <code>Animation</code> that consists of <code>this</code>
+    * composed over <code>that</code>.
+    * 
+    * @param that
+    * @return the new combined animation
+    */
+   public Animation over(Animation that)
+   {
+      return new Animation(weight, time -> this.getFrame(time)
+                                               .over(that.getFrame(time)));
+   }
+
+   /**
+    * Creates an <code>Animation</code> with the given weight and timeline function. This is just a
+    * convenient factory method equivalent to calling the constructor.
+    * 
+    * @param weight
+    * @param timeline
+    * @return the new animation
+    */
+   public static Animation of(double weight, Function<Double, Image> timeline)
+   {
+      return new Animation(weight, timeline);
+   }
+
+   /**
+    * Creates an <code>Animation</code> with weight 1.0 and a given timeline function.
+    * 
+    * @param weight
+    * @param timeline
+    * @return the new animation
+    */
+   public static Animation of(Function<Double, Image> timeline)
+   {
+      return new Animation(1.0, timeline);
+   }
+
+   /**
     * Creates an <code>Animation</code> with the given weight that displays a
     * fixed image for its entire duration.
     * 
