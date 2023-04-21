@@ -62,7 +62,9 @@ public interface Easing
    
    static final Easing CUBIC = fromIn(x -> x * x * x);
    
-   static final Easing SINE = fromOut(x -> Math.sin(x));
+   static final Easing SINE = fromOut(x -> Math.sin(x * Math.PI / 2));
+   
+   static final Easing BACK = fromIn(x -> 2.70158 * x * x * x - 1.70158 * x * x);
 }
 // public class Easing
 // {

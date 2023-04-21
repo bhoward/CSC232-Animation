@@ -8,8 +8,11 @@
 // Online sources:  None
 ////////////////////////////////////////////////////////////////////////////////
 
+import java.util.function.Function;
+
 import csc232.Animation;
 import csc232.AnimationRunner;
+import csc232.Easing;
 import csc232.Image;
 
 public class Main
@@ -48,7 +51,64 @@ public class Main
                                  .before(part5)
                                  .over(background);
 
-      AnimationRunner runner = new AnimationRunner(animation);
+      // AnimationRunner runner = new AnimationRunner(animation);
+
+      Animation demo = Animation.of(helperIn(Easing.LINEAR, "Linear"))
+                                .before(Animation.of(
+                                         helperIn(Easing.QUAD, "Quad In")))
+                                .before(Animation.of(
+                                         helperIn(Easing.SINE, "Sine In")))
+                                .before(Animation.of(
+                                         helperIn(Easing.CUBIC, "Cubic In")))
+                                .before(Animation.of(
+                                         helperIn(Easing.BACK, "Back In")))
+                                .before(Animation.of(
+                                         helperOut(Easing.QUAD, "Quad Out")))
+                                .before(Animation.of(
+                                         helperOut(Easing.SINE, "Sine Out")))
+                                .before(Animation.of(
+                                         helperOut(Easing.CUBIC, "Cubic Out")))
+                                .before(Animation.of(
+                                         helperOut(Easing.BACK, "Back Out")))
+                                .before(Animation.of(helperInOut(Easing.QUAD,
+                                         "Quad InOut")))
+                                .before(Animation.of(helperInOut(Easing.SINE,
+                                         "Sine InOut")))
+                                .before(Animation.of(helperInOut(Easing.CUBIC,
+                                         "Cubic InOut")))
+                                .before(Animation.of(helperInOut(Easing.BACK,
+                                         "Back InOut")));
+
+      AnimationRunner runner = new AnimationRunner(demo);
+
       runner.start();
+   }
+
+   private static Function<Double, Image> helperIn(Easing easing, String name)
+   {
+      return time -> Image.ellipse(time, easing.in(time), 0.1, 0.1)
+                          .over(Image.ellipse(1, easing.in(time), 0.1, 0.1)
+                                     .rgb(1, 0, 0))
+                          .over(Image.text(name))
+                          .scale(0.9, 0.5, 0.5);
+   }
+
+   private static Function<Double, Image> helperOut(Easing easing, String name)
+   {
+      return time -> Image.ellipse(time, easing.out(time), 0.1, 0.1)
+                          .over(Image.ellipse(1, easing.out(time), 0.1, 0.1)
+                                     .rgb(1, 0, 0))
+                          .over(Image.text(name))
+                          .scale(0.9, 0.5, 0.5);
+   }
+
+   private static Function<Double, Image> helperInOut(Easing easing,
+            String name)
+   {
+      return time -> Image.ellipse(time, easing.inOut(time), 0.1, 0.1)
+                          .over(Image.ellipse(1, easing.inOut(time), 0.1, 0.1)
+                                     .rgb(1, 0, 0))
+                          .over(Image.text(name))
+                          .scale(0.9, 0.5, 0.5);
    }
 }
