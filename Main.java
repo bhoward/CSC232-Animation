@@ -53,7 +53,7 @@ public class Main
 
       // AnimationRunner runner = new AnimationRunner(animation);
 
-      Animation demo = Animation.of(helperIn(Easing.LINEAR, "Linear"))
+      Animation easingDemo = Animation.of(helperIn(Easing.LINEAR, "Linear"))
                                 .before(Animation.of(
                                          helperIn(Easing.QUAD, "Quad In")))
                                 .before(Animation.of(
@@ -79,7 +79,7 @@ public class Main
                                 .before(Animation.of(helperInOut(Easing.BACK,
                                          "Back InOut")));
 
-      AnimationRunner runner = new AnimationRunner(demo);
+      AnimationRunner runner = new AnimationRunner(animation.before(easingDemo));
 
       runner.start();
    }
