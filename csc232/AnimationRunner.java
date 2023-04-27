@@ -12,6 +12,10 @@ package csc232;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -27,6 +31,7 @@ import javax.swing.JSlider;
 public class AnimationRunner
 {
    private JFrame frame;
+   private boolean isFullScreen;
 
    /**
     * Construct a UI to display the given <code>Animation</code>.
@@ -36,11 +41,13 @@ public class AnimationRunner
    public AnimationRunner(Animation animation)
    {
       final AnimationComponent view = new AnimationComponent(animation);
-      view.setPreferredSize(new Dimension(350, 350));
+      view.setPreferredSize(new Dimension(400, 400));
 
       frame = new JFrame("Animation");
       frame.setLayout(new BorderLayout());
       frame.add(view, BorderLayout.CENTER);
+
+      isFullScreen = false;
 
       Box buttons = Box.createHorizontalBox();
 
@@ -75,6 +82,36 @@ public class AnimationRunner
                event -> view.setLoop(loopButton.isSelected()));
       buttons.add(loopButton);
 
+      JButton fullButton = new JButton("Full Screen");
+      KeyAdapter escapeListener = new KeyAdapter()
+      {
+         public void keyPressed(KeyEvent ke) {
+            if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+               fullButton.doClick();
+            }
+         }
+      };
+      fullButton.addActionListener(event -> {
+         GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
+         GraphicsDevice device = graphics.getDefaultScreenDevice();
+
+         frame.dispose();
+
+         isFullScreen = !isFullScreen;
+         frame.setUndecorated(isFullScreen);
+         frame.setResizable(!isFullScreen);
+         if (isFullScreen) {
+            device.setFullScreenWindow(frame);
+            frame.addKeyListener(escapeListener);
+         } else {
+            frame.removeKeyListener(escapeListener);
+         }
+
+         frame.setVisible(true);
+         frame.requestFocus();
+      });
+      buttons.add(fullButton);
+
       frame.add(buttons, BorderLayout.SOUTH);
 
       JSlider slider = new JSlider();
@@ -90,7 +127,7 @@ public class AnimationRunner
       });
       view.addProgressListener(event -> slider.setValue(
                (int) (slider.getMaximum() * view.getProgress())));
-      
+
       frame.add(slider, BorderLayout.NORTH);
 
       view.addRunStateListener(event -> {
