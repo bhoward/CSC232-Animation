@@ -14,14 +14,18 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JSlider;
+import javax.swing.KeyStroke;
 
 /**
  * A simple user interface to go around an <code>AnimationComponent</code>.
@@ -83,36 +87,31 @@ public class AnimationRunner
       buttons.add(loopButton);
 
       JButton fullButton = new JButton("Full Screen");
-      KeyAdapter escapeListener = new KeyAdapter()
-      {
-         public void keyPressed(KeyEvent ke) {
-            if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-               fullButton.doClick();
-            }
-         }
-      };
       fullButton.addActionListener(event -> {
-         GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
-         GraphicsDevice device = graphics.getDefaultScreenDevice();
-
-         frame.dispose();
-
-         isFullScreen = !isFullScreen;
-         frame.setUndecorated(isFullScreen);
-         frame.setResizable(!isFullScreen);
+         toggleFullScreen();
          if (isFullScreen) {
-            device.setFullScreenWindow(frame);
-            frame.addKeyListener(escapeListener);
-         } else {
-            frame.removeKeyListener(escapeListener);
+            fullButton.setText("Restore");
          }
-
-         frame.setVisible(true);
-         frame.requestFocus();
+         else {
+            fullButton.setText("Full Screen");
+         }
       });
       buttons.add(fullButton);
 
       frame.add(buttons, BorderLayout.SOUTH);
+
+      view.getActionMap()
+          .put("exitFullScreen", new AbstractAction()
+          {
+             public void actionPerformed(ActionEvent e)
+             {
+                if (isFullScreen) {
+                   fullButton.doClick();
+                }
+             }
+          });
+      view.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+          .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "exitFullScreen");
 
       JSlider slider = new JSlider();
       slider.setMinimum(0);
@@ -145,6 +144,24 @@ public class AnimationRunner
 
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.pack();
+   }
+
+   private void toggleFullScreen()
+   {
+      GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
+      GraphicsDevice device = graphics.getDefaultScreenDevice();
+
+      frame.dispose();
+
+      isFullScreen = !isFullScreen;
+      frame.setUndecorated(isFullScreen);
+      frame.setResizable(!isFullScreen);
+      if (isFullScreen) {
+         device.setFullScreenWindow(frame);
+      }
+
+      frame.setVisible(true);
+      frame.requestFocus();
    }
 
    /**
