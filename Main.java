@@ -79,7 +79,7 @@ public class Main
                                 .before(Animation.of(helperInOut(Easing.BACK,
                                          "Back InOut")));
 
-      AnimationRunner runner = new AnimationRunner(demo);
+      AnimationRunner runner = new AnimationRunner(animation.before(demo));
 
       runner.start();
    }
