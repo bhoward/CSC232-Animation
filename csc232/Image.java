@@ -13,6 +13,7 @@ package csc232;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -111,5 +112,49 @@ public interface Image
    static Image square()
    {
       return new ShapeImage(new Rectangle2D.Double(0, 0, 1, 1));
+   }
+
+   /**
+    * Creates a new empty <code>Image</code>.
+    * 
+    * @return an image with no content
+    */
+   static Image empty()
+   {
+      return new ShapeImage(new Path2D.Double());
+   }
+
+   /**
+    * Creates a new <code>Image</code> consisting of a rectangle with upper-left
+    * corner at (x, y) and the given width and height.
+    * 
+    * @param x
+    * @param y
+    * @param width
+    * @param height
+    * 
+    * @return a new rectangle image
+    */
+   static Image rectangle(double x, double y, double width, double height)
+   {
+      return square().scale(width, height)
+                     .translate(x, y);
+   }
+
+   /**
+    * Creates a new <code>Image</code> consisting of an ellipse with center at
+    * (x, y) and the given width and height.
+    * 
+    * @param x
+    * @param y
+    * @param width
+    * @param height
+    * 
+    * @return a new rectangle image
+    */
+   static Image ellipse(double x, double y, double width, double height)
+   {
+      return circle().scale(width, height)
+                     .translate(x - width / 2, y - height / 2);
    }
 }

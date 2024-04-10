@@ -10,6 +10,7 @@
 
 package csc232;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -175,7 +176,8 @@ public class AnimationComponent extends JComponent
       super.paintComponent(g);
 
       Graphics2D g2 = (Graphics2D) g;
-      g2.setPaint(Color.BLUE); // TODO allow the color to be changed
+      g2.setPaint(Color.BLUE);
+      g2.setStroke(new BasicStroke(0.01f));
       g2.scale(this.getWidth(), this.getHeight());
       Image frame = animation.getFrame(progress);
       frame.render(g2);
