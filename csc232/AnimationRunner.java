@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // File:            AnimationRunner.java
-// Course:          CSC 232 A, Spring 2021
+// Course:          CSC 232, Spring 2024
 // Authors:         Brian Howard
 //
 // Acknowledgments: None

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // File:            Main.java
-// Course:          CSC 232 A, Spring 2021
+// Course:          CSC 232, Spring 2024
 // Authors:         Brian Howard
 //
 // Acknowledgments: None
@@ -9,8 +9,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 import csc232.Animation;
-import csc232.AnimationComponent;
-import csc232.ClickListener;
 import csc232.AnimationRunner;
 import csc232.Image;
 
@@ -23,11 +21,10 @@ public class Main
       // window, followed by a circle that grows from the center.
       // WARNING: there are magic numbers here, and I don't care.
       Animation part1 = Animation.fixed(Image.circle()
-                                             .over(Image.rectangle(0, 0, 0.5,
-                                                      0.5)));
+                                             .over(Image.rectangle(0, 0, 0.5, 0.5)));
       Animation part2 = new Animation(time -> Image.rectangle(0, 0, time, 1));
-      Animation part3 = new Animation(
-               time -> Image.ellipse(0.5, 0.5, time, time));
+      Animation part3 = new Animation(time -> Image.ellipse(0.5, 0.5, time, time));
+      
       Animation animation = part1.before(part2)
                                  .before(part3);
 
