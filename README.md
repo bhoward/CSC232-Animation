@@ -5,7 +5,8 @@ Observer to build a simple representation of animations (as a function from
 time to image), along with a Swing-based viewer to display an animation.
 
 It was created by Brian Howard for the DePauw course CSC 232, Object-Oriented
-Software Development, in the spring of 2021.
+Software Development, in the spring of 2021, and last updated in the spring
+of 2024.
 
-The current version was significantly enhanced in the spring of 2023, and does
-not exactly match the version described in class.
+The "future" branch contains several experimental features not present in the
+"main" branch, for potential future use.

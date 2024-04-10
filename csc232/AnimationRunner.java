@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // File:            AnimationRunner.java
-// Course:          CSC 232 A, Spring 2021
+// Course:          CSC 232, Spring 2024
 // Authors:         Brian Howard
 //
 // Acknowledgments: None
@@ -15,7 +15,6 @@ import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
@@ -71,6 +70,9 @@ public class AnimationRunner
       stopResumeButton.setEnabled(false); // initially disabled
       buttons.add(stopResumeButton);
 
+      view.addMouseListener(
+        new ClickListener(stopResumeButton.getActionListeners()[0]));
+     
       JButton slowerButton = new JButton("Slower");
       slowerButton.addActionListener(
                event -> view.setDuration(view.getDuration() * 6 / 5));
@@ -81,7 +83,7 @@ public class AnimationRunner
                event -> view.setDuration(view.getDuration() * 5 / 6));
       buttons.add(fasterButton);
 
-      JCheckBox loopButton = new JCheckBox("Loop");
+      JCheckBox loopButton = new DualCheckBox("Once", "Loop");
       loopButton.addActionListener(
                event -> view.setLoop(loopButton.isSelected()));
       buttons.add(loopButton);
