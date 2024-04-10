@@ -1,3 +1,7 @@
+package csc232;
+
+
+
 import javax.swing.JCheckBox;
 
 public class DualCheckBox extends JCheckBox {
@@ -8,8 +12,7 @@ public class DualCheckBox extends JCheckBox {
           if (this.isSelected()) {
             this.setText(onLabel);
           } else {
-            this.setText(offLabel);
-          }
+             }
         }
       );
 
