@@ -64,6 +64,19 @@ public interface Image
 
    /**
     * Creates a new <code>Image</code> by rotating this image clockwise around
+    * the point (x, y).
+    * 
+    * @param theta
+    *           The rotation angle in radians
+    * @return a new rotated image
+    */
+   default Image rotateRadians(double theta, double x, double y)
+   {
+      return transform(AffineTransform.getRotateInstance(theta, x, y));
+   }
+
+   /**
+    * Creates a new <code>Image</code> by rotating this image clockwise around
     * the center, (0.5, 0.5).
     * 
     * @param theta
@@ -86,19 +99,6 @@ public interface Image
    default Image rotate(double revs, double x, double y)
    {
       return rotateRadians(2 * Math.PI * revs, x, y);
-   }
-
-   /**
-    * Creates a new <code>Image</code> by rotating this image clockwise around
-    * the point (x, y).
-    * 
-    * @param theta
-    *           The rotation angle in radians
-    * @return a new rotated image
-    */
-   default Image rotateRadians(double theta, double x, double y)
-   {
-      return transform(AffineTransform.getRotateInstance(theta, x, y));
    }
 
    /**
@@ -263,12 +263,29 @@ public interface Image
     * @param width
     * @param height
     * 
-    * @return a new rectangle image
+    * @return a new ellipse image
+    */
+   static Image ellipseAt(double x, double y, double width, double height)
+   {
+      return circle().scale(width, height)
+                     .translate(x - width / 2, y - height / 2);
+   }
+
+   /**
+    * Creates a new <code>Image</code> consisting of an ellipse with upper-left
+    * corner at (x, y) and the given width and height.
+    * 
+    * @param x
+    * @param y
+    * @param width
+    * @param height
+    * 
+    * @return a new ellipse image
     */
    static Image ellipse(double x, double y, double width, double height)
    {
       return circle().scale(width, height)
-                     .translate(x - width / 2, y - height / 2);
+                     .translate(x, y);
    }
 
    /**

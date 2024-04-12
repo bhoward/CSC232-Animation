@@ -31,21 +31,10 @@ public class Animation
     * @param weight
     * @param timeline
     */
-   public Animation(double weight, Function<Double, Image> timeline)
+   private Animation(double weight, Function<Double, Image> timeline)
    {
       this.weight = weight;
       this.timeline = timeline;
-   }
-
-   /**
-    * Constructs an <code>Animation</code> with weight 1.0 and the given
-    * timeline function.
-    * 
-    * @param timeline
-    */
-   public Animation(Function<Double, Image> timeline)
-   {
-      this(1.0, timeline);
    }
 
    /**

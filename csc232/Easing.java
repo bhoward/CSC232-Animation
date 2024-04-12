@@ -66,24 +66,4 @@ public interface Easing
    
    static final Easing BACK = fromIn(x -> 2.70158 * x * x * x - 1.70158 * x * x);
 }
-// public class Easing
-// {
-// private static final double C1 = 1.70158;
-// private static final double C2 = C1 * 1.525;
-//
-// public static double backIn(double x)
-// {
-// return (C1 + 1) * cube(x) - C1 * square(x);
-// }
-//
-// public static double backOut(double x)
-// {
-// return 1 - (C1 + 1) * cube(1 - x) + C1 * square(1 - x);
-// }
-//
-// public static double backInOut(double x)
-// {
-// return (x < 0.5) ? 4 * (C2 + 1) * cube(x) - 2 * C2 * square(x)
-// : 1 - 4 * (C2 + 1) * cube(1 - x) + 2 * C2 * square(1 - x);
-// }
-// }
+

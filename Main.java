@@ -21,16 +21,16 @@ public class Main
    {
       // Construct a simple animation to show off various capabilities of the
       // framework. WARNING: there are magic numbers here, and I don't care.
-      Animation part1 = Animation.fixed(Image.circle()
-                                             .over(Image.rectangle(0, 0, 0.5,
-                                                      0.5)));
+      Animation part1 = Animation.fixed(Image.ellipse(0, 0, 0.5, 0.5)
+                                             .rgb(1, 0, 0)
+                                             .over(Image.rectangle(0, 0, 0.5, 0.5)));
       Animation part2 = Animation.of(time -> Image.rectangle(0, 0, time, 1)
                                                   .rgb(0, 1, 0));
-      Animation part3 = Animation.of(time -> Image.ellipse(0.5, 0.5, time, time)
-                                                  .over(Image.square()
-                                                             .rotate(time)
-                                                             .hsb(time, 0.5,
-                                                                      1)));
+      Animation part3 = Animation.of(
+               time -> Image.ellipseAt(0.5, 0.5, time, time)
+                            .over(Image.square()
+                                       .rotate(time)
+                                       .hsb(time, 0.5, 1)));
       Image text = Image.text(
                "Hello World. This is <i>some text</i> that <small><i>I <b>hope</small> will flow across multiple lines. "
                   + "Let's see if it does. "
@@ -54,40 +54,41 @@ public class Main
       // AnimationRunner runner = new AnimationRunner(animation);
 
       Animation easingDemo = Animation.of(helperIn(Easing.LINEAR, "Linear"))
-                                .before(Animation.of(
-                                         helperIn(Easing.QUAD, "Quad In")))
-                                .before(Animation.of(
-                                         helperIn(Easing.SINE, "Sine In")))
-                                .before(Animation.of(
-                                         helperIn(Easing.CUBIC, "Cubic In")))
-                                .before(Animation.of(
-                                         helperIn(Easing.BACK, "Back In")))
-                                .before(Animation.of(
-                                         helperOut(Easing.QUAD, "Quad Out")))
-                                .before(Animation.of(
-                                         helperOut(Easing.SINE, "Sine Out")))
-                                .before(Animation.of(
-                                         helperOut(Easing.CUBIC, "Cubic Out")))
-                                .before(Animation.of(
-                                         helperOut(Easing.BACK, "Back Out")))
-                                .before(Animation.of(helperInOut(Easing.QUAD,
-                                         "Quad InOut")))
-                                .before(Animation.of(helperInOut(Easing.SINE,
-                                         "Sine InOut")))
-                                .before(Animation.of(helperInOut(Easing.CUBIC,
-                                         "Cubic InOut")))
-                                .before(Animation.of(helperInOut(Easing.BACK,
-                                         "Back InOut")));
+                                      .before(Animation.of(helperIn(Easing.QUAD,
+                                               "Quad In")))
+                                      .before(Animation.of(helperIn(Easing.SINE,
+                                               "Sine In")))
+                                      .before(Animation.of(helperIn(
+                                               Easing.CUBIC, "Cubic In")))
+                                      .before(Animation.of(helperIn(Easing.BACK,
+                                               "Back In")))
+                                      .before(Animation.of(helperOut(
+                                               Easing.QUAD, "Quad Out")))
+                                      .before(Animation.of(helperOut(
+                                               Easing.SINE, "Sine Out")))
+                                      .before(Animation.of(helperOut(
+                                               Easing.CUBIC, "Cubic Out")))
+                                      .before(Animation.of(helperOut(
+                                               Easing.BACK, "Back Out")))
+                                      .before(Animation.of(helperInOut(
+                                               Easing.QUAD, "Quad InOut")))
+                                      .before(Animation.of(helperInOut(
+                                               Easing.SINE, "Sine InOut")))
+                                      .before(Animation.of(helperInOut(
+                                               Easing.CUBIC, "Cubic InOut")))
+                                      .before(Animation.of(helperInOut(
+                                               Easing.BACK, "Back InOut")));
 
-      AnimationRunner runner = new AnimationRunner(animation.before(easingDemo));
+      AnimationRunner runner = new AnimationRunner(
+               animation.before(easingDemo));
 
       runner.start();
    }
 
    private static Function<Double, Image> helperIn(Easing easing, String name)
    {
-      return time -> Image.ellipse(time, easing.in(time), 0.1, 0.1)
-                          .over(Image.ellipse(1, easing.in(time), 0.1, 0.1)
+      return time -> Image.ellipseAt(time, easing.in(time), 0.1, 0.1)
+                          .over(Image.ellipseAt(1, easing.in(time), 0.1, 0.1)
                                      .rgb(1, 0, 0))
                           .over(Image.text(name))
                           .scale(0.9, 0.5, 0.5);
@@ -95,8 +96,8 @@ public class Main
 
    private static Function<Double, Image> helperOut(Easing easing, String name)
    {
-      return time -> Image.ellipse(time, easing.out(time), 0.1, 0.1)
-                          .over(Image.ellipse(1, easing.out(time), 0.1, 0.1)
+      return time -> Image.ellipseAt(time, easing.out(time), 0.1, 0.1)
+                          .over(Image.ellipseAt(1, easing.out(time), 0.1, 0.1)
                                      .rgb(1, 0, 0))
                           .over(Image.text(name))
                           .scale(0.9, 0.5, 0.5);
@@ -105,8 +106,8 @@ public class Main
    private static Function<Double, Image> helperInOut(Easing easing,
             String name)
    {
-      return time -> Image.ellipse(time, easing.inOut(time), 0.1, 0.1)
-                          .over(Image.ellipse(1, easing.inOut(time), 0.1, 0.1)
+      return time -> Image.ellipseAt(time, easing.inOut(time), 0.1, 0.1)
+                          .over(Image.ellipseAt(1, easing.inOut(time), 0.1, 0.1)
                                      .rgb(1, 0, 0))
                           .over(Image.text(name))
                           .scale(0.9, 0.5, 0.5);
